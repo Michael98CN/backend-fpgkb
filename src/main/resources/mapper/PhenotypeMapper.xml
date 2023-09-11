@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isg.fpgkb.mapper.PhenotypeMapper">
+  <resultMap id="BaseResultMap" type="com.isg.fpgkb.dto.Phenotype">
+    <id column="Pid" jdbcType="VARCHAR" property="pid" />
+    <result column="phenotype_name" jdbcType="VARCHAR" property="phenotypeName" />
+    <result column="synonyms" jdbcType="LONGVARCHAR" property="synonyms" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from face_phenotype
+    where Pid = #{pid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.isg.fpgkb.dto.Phenotype">
+    insert into face_phenotype (Pid, phenotype_name, synonyms, 
+      description)
+    values (#{pid,jdbcType=VARCHAR}, #{phenotypeName,jdbcType=VARCHAR}, #{synonyms,jdbcType=LONGVARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.isg.fpgkb.dto.Phenotype">
+    update face_phenotype
+    set phenotype_name = #{phenotypeName,jdbcType=VARCHAR},
+      synonyms = #{synonyms,jdbcType=LONGVARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where Pid = #{pid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select Pid, phenotype_name, synonyms, description
+    from face_phenotype
+    where Pid = #{pid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Pid, phenotype_name, synonyms, description
+    from face_phenotype
+  </select>
+</mapper>

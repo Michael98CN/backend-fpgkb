@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isg.fpgkb.mapper.Relation_gpMapper">
+  <resultMap id="BaseResultMap" type="com.isg.fpgkb.dto.Relation_gp">
+    <id column="GPid" jdbcType="INTEGER" property="gpid" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="pmid" jdbcType="INTEGER" property="pmid" />
+    <result column="type" jdbcType="LONGVARCHAR" property="type" />
+    <result column="evidence" jdbcType="LONGVARCHAR" property="evidence" />
+  </resultMap>
+  <resultMap id="TabletResultMap" type="com.isg.fpgkb.dto.Tablet">
+    <result column="pmid" jdbcType="INTEGER" property="pmid" />
+    <result column="gene_id" jdbcType="INTEGER" property="geneId" />
+    <result column="gene_name" jdbcType="VARCHAR" property="geneName" />
+    <result column="chromosomes_name" jdbcType="VARCHAR" property="chromosomesName" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="phenotype_name" jdbcType="VARCHAR" property="phenotypeName" />
+    <result column="did" jdbcType="INTEGER" property="did" />
+    <result column="dname" jdbcType="VARCHAR" property="dname" />
+    <result column="sid" jdbcType="VARCHAR" property="sid" />
+  </resultMap>
+
+    <resultMap id="ListDiseaseMap" type="com.isg.fpgkb.dto.List_disease_top10">
+        <result column="did" jdbcType="INTEGER" property="did" />
+        <result column="dname" jdbcType="VARCHAR" property="dname" />
+    </resultMap>
+
+    <resultMap id="GeneMap" type="com.isg.fpgkb.dto.Gene">
+        <result column="gene_name" jdbcType="VARCHAR" property="geneName" />
+    </resultMap>
+    <resultMap id="chrMap" type="com.isg.fpgkb.dto.Gene">
+        <result column="chromosomes_name" jdbcType="VARCHAR" property="chromosomesName" />
+    </resultMap>
+
+    <resultMap id="PhenotypeMap" type="com.isg.fpgkb.dto.Phenotype">
+        <result column="phenotype_name" jdbcType="VARCHAR" property="phenotypeName" />
+    </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from relation_gp
+    where GPid = #{gpid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.isg.fpgkb.dto.Relation_gp">
+    insert into relation_gp (GPid, id, pid,
+      pmid, `type`, evidence
+      )
+    values (#{gpid,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{pid,jdbcType=VARCHAR},
+      #{pmid,jdbcType=INTEGER}, #{type,jdbcType=LONGVARCHAR}, #{evidence,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.isg.fpgkb.dto.Relation_gp">
+    update relation_gp
+    set id = #{id,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=VARCHAR},
+      pmid = #{pmid,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=LONGVARCHAR},
+      evidence = #{evidence,jdbcType=LONGVARCHAR}
+    where GPid = #{gpid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select GPid, id, pid, pmid, `type`, evidence
+    from relation_gp
+    where GPid = #{gpid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select GPid, id, pid, pmid, `type`, evidence
+    from relation_gp
+  </select>
+  <select id="selectTablet" resultMap="TabletResultMap">
+    SELECT distinct GPid,sample.sid,genotype.gene_id,genotype.gene_name,genotype.chromosomes_name,relation_gp.pid,face_phenotype.phenotype_name,relation_gd.Did,diseases.Dname,relation_gp.pmid  FROM relation_gp LEFT JOIN relation_gd on relation_gp.pmid = relation_gd.pmid LEFT JOIN genotype ON relation_gp.gid = genotype.gid LEFT JOIN diseases ON relation_gd.Did = diseases.Did LEFT JOIN face_phenotype ON relation_gp.pid = face_phenotype.Pid LEFT JOIN sample ON sample.pmid = relation_gp.pmid ORDER BY sample.sid DESC
+  </select>
+
+    <select id="selectListDiseaseTop10" resultMap="ListDiseaseMap">
+    SELECT relation_gd.did,diseases.Dname,COUNT(*)AS num FROM `relation_gd` LEFT JOIN diseases on relation_gd.did=diseases.Did GROUP BY Dname HAVING Dname IS NOT NULL ORDER BY num DESC LIMIT 10
+    </select>
+
+    <select id="getgene" resultType="java.lang.String">
+    SELECT genotype.gene_name FROM `relation_gp`  INNER JOIN genotype ON relation_gp.gid = genotype.gid GROUP BY relation_gp.gid HAVING genotype.gene_name IS NOT NULL
+    </select>
+
+    <select id="getchr" resultType="java.lang.String">
+        SELECT genotype.chromosomes_name FROM `relation_gp`  INNER JOIN genotype ON relation_gp.gid = genotype.gid GROUP BY genotype.chromosomes_name
+    </select>
+
+    <select id="getphenotype" resultType="java.lang.String">
+        SELECT face_phenotype.phenotype_name FROM `relation_gp`  INNER JOIN face_phenotype ON relation_gp.pid = face_phenotype.pid  GROUP BY face_phenotype.phenotype_name
+    </select>
+
+
+</mapper>

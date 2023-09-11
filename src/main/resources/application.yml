@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hmq_master?useSSL=false&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: "hmqww123"
+  thymeleaf:
+    cache: false
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: hmqww123
+  data:
+      neo4j:
+          database: test
+
+server:
+  port: 8044
+  servlet:
+    session:
+      timeout: 3000ms
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 100
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+  type-aliases-package: com.isg.fpgkb.*

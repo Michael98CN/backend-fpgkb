@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isg.fpgkb.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.isg.fpgkb.dto.Menu_Entity">
+    <id column="level" jdbcType="INTEGER" property="level" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="synonyms" jdbcType="LONGVARCHAR" property="synonyms" />
+  </resultMap>
+  <resultMap id="PhenotypeVis" type="com.isg.fpgkb.dto_vis.Phenotype_vis">
+    <id column="level" jdbcType="INTEGER" property="level" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from phenotype_menu
+    where `level` = #{level,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.isg.fpgkb.dto.Menu">
+    insert into phenotype_menu (`level`, id, pid, 
+      `name`,synonyms)
+    values (#{level,jdbcType=INTEGER}, #{id,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{synonyms,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.isg.fpgkb.dto.Menu">
+    update phenotype_menu
+    set id = #{id,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+    synonyms = #{synonyms,jdbcType=LONGVARCHAR}
+    where `level` = #{level,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select `level`, id, pid, `name`,synonyms
+    from phenotype_menu
+    where `level` = #{level,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select `level`, id, pid, `name`,synonyms
+    from phenotype_menu
+  </select>
+  <select id="selectAll_vis" resultMap="PhenotypeVis">
+    select `level`, id,`name`,pid
+    from phenotype_menu
+  </select>
+</mapper>

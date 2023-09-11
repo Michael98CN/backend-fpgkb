@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isg.fpgkb.mapper.GeneMapper">
+  <resultMap id="BaseResultMap" type="com.isg.fpgkb.dto.Gene">
+    <id column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="gene_id" jdbcType="INTEGER" property="geneId" />
+    <result column="gene_name" jdbcType="VARCHAR" property="geneName" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+    <result column="chromosomes_name" jdbcType="VARCHAR" property="chromosomesName" />
+    <result column="chromosomal_loci" jdbcType="VARCHAR" property="chromosomalLoci" />
+    <result column="exon_count" jdbcType="INTEGER" property="exonCount" />
+  </resultMap>
+  <resultMap id="visResultMap" type="com.isg.fpgkb.dto_vis.Gene_vis">
+    <result column="chromosomes_name" jdbcType="VARCHAR" property="chromosomesName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from genotype
+    where gid = #{gid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.isg.fpgkb.dto.Gene">
+    insert into genotype (gid, gene_id, gene_name,
+      full_name, chromosomes_name, chromosomal_loci,exon_count
+      )
+    values (#{gid,jdbcType=INTEGER}, #{geneId,jdbcType=INTEGER}, #{geneName,jdbcType=VARCHAR},
+      #{fullName,jdbcType=VARCHAR}, #{chromosomesName,jdbcType=VARCHAR}, #{chromosomalLoci,jdbcType=VARCHAR}, #{exonCount,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.isg.fpgkb.dto.Gene">
+    update genotype
+    set gene_id = #{geneId,jdbcType=INTEGER},
+      gene_name = #{geneName,jdbcType=VARCHAR},
+      full_name = #{fullName,jdbcType=VARCHAR},
+      chromosomes_name = #{chromosomesName,jdbcType=VARCHAR},
+      chromosomal_loci = #{chromosomalLoci,jdbcType=VARCHAR},
+        exon_count = #{exonCount,jdbcType=INTEGER}
+    where gid = #{gid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select gid, gene_id, gene_name, full_name, chromosomes_name, chromosomal_loci,exon_count
+    from genotype
+    where gid = #{gid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select gid, gene_id, gene_name, full_name, chromosomes_name, chromosomal_loci,exon_count
+    from genotype
+  </select>
+  <select id="selectByGeneid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select gid, gene_id, gene_name, full_name, chromosomes_name, chromosomal_loci,exon_count
+    from genotype
+    where gene_id = #{gene_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll_less" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select gene_id, gene_name, chromosomes_name, chromosomal_loci
+    from genotype
+    order by chromosomes_name
+  </select>
+
+  <select id="Chrom_count" parameterType="java.lang.Integer" resultMap="visResultMap">
+    SELECT chromosomes_name,COUNT(*) as count
+    FROM `genotype`
+    GROUP BY chromosomes_name
+  </select>
+
+
+
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isg.fpgkb.mapper.Relation_gdMapper">
+  <resultMap id="BaseResultMap" type="com.isg.fpgkb.dto.Relation_gd">
+    <id column="GDid" jdbcType="INTEGER" property="gdid" />
+    <result column="gid" jdbcType="INTEGER" property="gid" />
+    <result column="did" jdbcType="INTEGER" property="did" />
+    <result column="pmid" jdbcType="INTEGER" property="pmid" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="details" jdbcType="LONGVARCHAR" property="details" />
+    <result column="sid" jdbcType="VARCHAR" property="sid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from relation_gd
+    where GDid = #{gdid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.isg.fpgkb.dto.Relation_gd">
+    insert into relation_gd (GDid, gid, did,
+      pmid, category, details,sid
+      )
+    values (#{gdid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{did,jdbcType=INTEGER},
+      #{pmid,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{details,jdbcType=LONGVARCHAR},#{sid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.isg.fpgkb.dto.Relation_gd">
+    update relation_gd
+    set gid = #{gid,jdbcType=INTEGER},
+      did = #{did,jdbcType=INTEGER},
+      pmid = #{pmid,jdbcType=INTEGER},
+      category = #{category,jdbcType=VARCHAR},
+      details = #{details,jdbcType=LONGVARCHAR},
+        sid = #{sid,jdbcType=VARCHAR}
+    where GDid = #{gdid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select GDid, gid, did, pmid, category, details,sid
+    from relation_gd
+    where GDid = #{gdid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select GDid, gid, did, pmid, category, details,sid
+    from relation_gd
+  </select>
+</mapper>

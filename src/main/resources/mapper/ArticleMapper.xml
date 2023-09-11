@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isg.fpgkb.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.isg.fpgkb.dto.Article">
+    <id column="pmid" jdbcType="INTEGER" property="pmid" />
+    <result column="article_name" jdbcType="VARCHAR" property="articleName" />
+    <result column="magazine_name" jdbcType="VARCHAR" property="magazineName" />
+    <result column="publish_time" jdbcType="VARCHAR" property="publishTime" />
+    <result column="author" jdbcType="LONGVARCHAR" property="author" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where pmid = #{pmid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.isg.fpgkb.dto.Article">
+    insert into article (pmid, article_name, magazine_name, 
+      publish_time, author)
+    values (#{pmid,jdbcType=INTEGER}, #{articleName,jdbcType=VARCHAR}, #{magazineName,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=VARCHAR}, #{author,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.isg.fpgkb.dto.Article">
+    update article
+    set article_name = #{articleName,jdbcType=VARCHAR},
+      magazine_name = #{magazineName,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=VARCHAR},
+      author = #{author,jdbcType=LONGVARCHAR}
+    where pmid = #{pmid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select pmid, article_name, magazine_name, publish_time, author
+    from article
+    where pmid = #{pmid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select pmid, article_name, magazine_name, publish_time, author
+    from article
+  </select>
+</mapper>

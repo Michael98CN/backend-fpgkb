@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!-- 导入配置文件 -->
+    <properties resource="application.yml"/>
+
+    <!-- defaultModelType="flat" s设置复合主键时不单独为主键创建实体 -->
+    <context id="MySql" defaultModelType="flat" targetRuntime="MyBatis3Simple">
+
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 当表名或者字段名为SQL关键字的时候，可以设置该属性为true，MBG会自动给表名或字段名添加分隔符(反单引号) -->
+        <property name="autoDelimitKeywords" value="true"/>
+
+        <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为反单引号(`)， -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+<!--        &lt;!&ndash; 生成的POJO实现java.io.Serializable接口 &ndash;&gt;-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <!--注释-->
+        <commentGenerator>
+            <!-- 阻止生成注释 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 注释里不添加日期 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        <!-- 数据库连接，直接通过${}读取application.properties里的配置 -->
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/hmq_master"
+                userId="root"
+                password="hmqww123"/>
+
+        <!-- 生成POJO对象，并将类放到相关的包下 -->
+       <javaModelGenerator targetPackage="com.isg.fpgkb.dto" targetProject="src/main/java"/>
+        <!-- 生成mapper xml文件，并放到resources下的mapper文件夹下 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
+
+        <!-- 生成mapper xml对应dao接口-->
+        <javaClientGenerator targetPackage="com.isg.fpgkb.mapper" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!-- table标签可以有多个，至少一个，tableName指定表名，可以使用_和%通配符，我这里的配置表明匹配所有的表 -->
+        <!--<table tableName="%">-->
+<!--        <table tableName="tb_doctor" domainObjectName="Doctor" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="tb_patient" domainObjectName="Patient" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="application" domainObjectName="Application" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="prescription" domainObjectName="Prescription" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"></table>-->
+<!--        <table tableName="reservation" domainObjectName="Reservation" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash; 是否只生成POJO对象 &ndash;&gt;-->
+<!--            <property name="modelOnly" value="false"/>-->
+<!--            &lt;!&ndash; 插入一条数据时，将id映射到实体类中 &ndash;&gt;-->
+<!--            <generatedKey column="id" sqlStatement="Mysql"/>-->
+
+
+<!--        <table tableName="article" domainObjectName="Article" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        -->
+<!--        <table tableName="face_phenotype" domainObjectName="Phenotype" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="genotype" domainObjectName="Gene" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="phenotype_menu" domainObjectName="Menu" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="relation_dp" domainObjectName="Relation_dp" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="relation_gd" domainObjectName="Relation_gd" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="relation_gp" domainObjectName="Relation_gp" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="relation_pa" domainObjectName="Relation_pa" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="sample" domainObjectName="Sample" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--        </table>-->
+
+        <table tableName="relation_sp" domainObjectName="Relation_sp" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false">
+        </table>
+
+
+    </context>
+</generatorConfiguration>
